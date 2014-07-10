@@ -18,7 +18,7 @@ lib-cov
 *.out
 *.pid
 *.gz
-
+*.db
 pids
 logs
 results

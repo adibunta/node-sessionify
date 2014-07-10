@@ -1,11 +1,11 @@
 var express = require('express');
 var Sessionify = require('./index.js');
 
-var clientObj = new Sessionify.Store(express, {
+var clientObj = Sessionify.Client(express, {
 	secret: 'gica123',
 	servers: [{
 		host: '127.0.0.1',
-		port: 18755
+		port: 18555
 	}]
 });
 
@@ -18,21 +18,17 @@ clientObj.on('error', function(err) {
 
 console.log("Testing...");
 clientObj.on('ready', function() {
-	var MAX_SESSIONS = 100000,
+	var MAX_SESSIONS = 10,
 		FAILS = 0,
 		CURRENT = 0,
 		TIMES = [],
 		STARTED = new Date().getTime();
-
+	return;
 	var sendSession = function() {
 		var sid = new Date().getTime().toString() + Math.random().toString(),
 			data = {
 				onestring: "eqw" + new Date().getTime(),
-				gica: "Math.",
-				trica: Math.random(),
-				zaica: Math.random(),
-				gigi: Math.random(),
-				ryry: Math.random()
+				gica: "Math."
 			};
 		var now = new Date().getTime();
 		clientObj.set(sid, data, function(wasOk) {
@@ -59,12 +55,10 @@ clientObj.on('ready', function() {
 		clearTimeout(a);
 	};
 	sendSession();
-	var a = setTimeout(function() {
+	var a = setInterval(function() {
 		console.log('Sent ' + CURRENT);
 	}, 1000);
 });
-
-return;
 
 var app = express();
 app.use(express.errorHandler());
